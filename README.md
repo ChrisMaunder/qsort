@@ -29,11 +29,11 @@ defined as follows:
 class CArrayClass  
 {
 public:
-CArrayClass();
-virtual ~CArrayClass();
-
-WORD    m_wMsgId;
-CString m_strMsgType;
+  CArrayClass();
+  virtual ~CArrayClass();
+  
+  WORD    m_wMsgId;
+  CString m_strMsgType;
 };
 ```
 
@@ -58,9 +58,8 @@ Items *elem1* and *elem2* are pointers to two items in the
 array, and must be cast to the appropriate type and compared. The return
 value of the function is as follows:
 
-| <!----> | <!----> |
-| --- | --- |
 | **Return Value** | **Description** |
+| --- |:--- |
 | &lt; 0 | *elem1* less than *elem2* |
 | 0 | *elem1* equivalent to *elem2* |
 | &gt; 0 | *elem1* greater than *elem2* |
@@ -68,27 +67,27 @@ value of the function is as follows:
 In our case the callback function would look like the following:
 
 ```cpp
-//This function can be global or it can be a static member of your class,
-//but it's address must be know at compile time.
+// This function can be global or it can be a static member of your class,
+// but it's address must be know at compile time.
 int CCArrayExampleDlg::SortTheArray(void* p1,void* p2)
 {
-short n=0;
-CArrayClass* a1 = (CArrayClass*)p1;
-CArrayClass* a2 =  (CArrayClass*)p2; // If we were sorting a CPtrArray then we 
-                                     // would have to do a second level 
-                                     // of casting to get to the data keys that we 
-                                     // would be sorting.
-
-if (a1->m_strMsgType  <a2->m_strMsgType)    //Ascending
-    n = -1; 
-elseif (a1->m_strMsgType  >a2->m_strMsgType)
-    n = 1; 
-elseif(a1->m_wMsgId  <a2->m_wMsgId)    //Ascending
-    n = -1; 
-elseif(a1->m_wMsgId  >a2->m_wMsgId)
-    n = 1;
-
-return n;
+  short n=0;
+  CArrayClass* a1 = (CArrayClass*)p1;
+  CArrayClass* a2 =  (CArrayClass*)p2; // If we were sorting a CPtrArray then we 
+                                       // would have to do a second level 
+                                       // of casting to get to the data keys that we 
+                                       // would be sorting.
+  
+  if (a1->m_strMsgType  <a2->m_strMsgType)    //Ascending
+      n = -1; 
+  elseif (a1->m_strMsgType  >a2->m_strMsgType)
+      n = 1; 
+  elseif(a1->m_wMsgId  <a2->m_wMsgId)    //Ascending
+      n = -1; 
+  elseif(a1->m_wMsgId  >a2->m_wMsgId)
+      n = 1;
+  
+  return n;
 }
 ```
 
@@ -98,19 +97,19 @@ and then display the results.
 ```cpp
 void CCArrayExampleDlg::OnSort() 
 { 
-// Fill the array m_aCArrayClass with items of type CArrayClass 
-...
-
-// Sort the array 
-if(m_aCArrayClass.GetSize() >  0) 
-{
-    qsort((void*)&m_aCArrayClass[0],
-          (size_t)m_aCArrayClass.GetSize(), 
-          sizeof(CArrayClass),
-          (int(*)(const void*, const void*))CCArrayExampleDlg::SortTheArray);
-}
-
-// Display the newly sorted array
-...
+  // Fill the array m_aCArrayClass with items of type CArrayClass 
+  ...
+  
+  // Sort the array 
+  if(m_aCArrayClass.GetSize() >  0) 
+  {
+      qsort((void*)&m_aCArrayClass[0],
+            (size_t)m_aCArrayClass.GetSize(), 
+            sizeof(CArrayClass),
+            (int(*)(const void*, const void*))CCArrayExampleDlg::SortTheArray);
+  }
+  
+  // Display the newly sorted array
+  ...
 }
 ```
